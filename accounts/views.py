@@ -1,13 +1,12 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.forms import (AuthenticationForm, UserCreationForm,
+from django.contrib.auth.forms import (AuthenticationForm,
                                        PasswordChangeForm)
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
 from . import forms
 
-# Create your views here.
 
 def sign_in(request):
     form = AuthenticationForm()
@@ -50,11 +49,13 @@ def sign_up(request):
             return redirect('/accounts/profile')  # TODO: go to profile
     return render(request, 'accounts/sign_up.html', {'form': form})
 
+
 @login_required
 def sign_out(request):
     logout(request)
     messages.success(request, "You've been signed out. Come back soon!")
     return redirect('home')
+
 
 @login_required
 def profile(request):
@@ -64,7 +65,8 @@ def profile(request):
 @login_required
 def edit_profile(request):
     if request.method == 'POST':
-        form = forms.UpdateUserForm(request.POST, instance=request.user)
+        form = forms.UpdateUserForm(request.POST,
+                                    request.FILES or None, instance=request.user)
         if form.is_valid():
             form.save()
             messages.success(
@@ -79,3 +81,19 @@ def edit_profile(request):
         'form': form
     }
     return render(request, 'accounts/edit_profile.html', context)
+
+
+@login_required
+def change_password(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(data=request.POST, user=request.user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'You have successfully updated your password!')
+            return redirect('/accounts/profile')
+    else:
+        form = PasswordChangeForm(user=request.user)
+    context = {
+        'form': form
+    }
+    return render(request, 'accounts/change_password.html', context)

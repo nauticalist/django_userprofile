@@ -1,20 +1,36 @@
 {% extends "layout.html" %}
 
-{% block title %}Profile| {{ super }}{% endblock %}
+{% block title %}{%if user.first_name %}{{ user.first_name }}{% else %}Profile{% endif %} | {{ block.super }}{% endblock %}
 
 {% block body %}
     {% if user.is_authenticated %}
         {% if user.avatar %}
             <img class="circle--primary--avatar" src="{{ user.avatar.url }}" alt="{{ user }} avatar">
         {% endif %}
+        <h2>Account details</h2>
         <p>Name: {{ user.first_name }} {{ user.last_name }}</p>
         <p>Email: {{ user.email }}</p>
-        <p>Date of birth: {{ user.date_of_birth }}</p>
-        <p>Bio: {{ user.bio }}</p>
-        <p>City: {{ user.city }}</p>
-        <p>State: {{ user.state }}</p>
-        <p>Country: {{ user.country }}</p>
-        <p>Favorite Animal: {{ user.favorite_animal }}</p>
-        <p>Hobbies: {{ user.hobbies }}</p>
+        {% if user.date_of_birth %}
+            <p>Date of birth: {{ user.date_of_birth }}</p>
+        {% endif %}
+        {% if user.city %}
+            <p>City: {{ user.city }}</p>
+        {% endif %}
+        {% if user.state %}
+            <p>State: {{ user.state }}</p>
+        {% endif %}
+        {% if user.country %}
+            <p>Country: {{ user.country }}</p>
+        {% endif %}
+        {% if user.favorite_animal %}
+            <p>Favorite Animal: {{ user.favorite_animal }}</p>
+        {% endif %}
+        {% if user.hobbies %}
+            <p>Hobbies: {{ user.hobbies }}</p>
+        {% endif %}
+        {% if user.bio %}
+            <h2>Bio</h2>
+            <p>{{ user.bio }}</p>
+        {% endif %}
     {% endif %}
 {% endblock %}
