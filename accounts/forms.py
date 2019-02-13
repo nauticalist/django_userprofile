@@ -20,7 +20,7 @@ class CreateUserForm(UserCreationForm):
 
 class UpdateUserForm(UserChangeForm):
     password = None
-    
+
     class Meta(UserChangeForm):
         model = User
         fields = ('email', 'first_name', 'last_name',
@@ -36,3 +36,13 @@ class UpdateUserForm(UserChangeForm):
             raise forms.ValidationError(
                 'Bio must be more than 10 characters!')
         return bio
+
+
+class AvatarEditForm(forms.Form):
+    x = forms.FloatField(widget=forms.HiddenInput())
+    y = forms.FloatField(widget=forms.HiddenInput())
+    width = forms.FloatField(widget=forms.HiddenInput())
+    height = forms.FloatField(widget=forms.HiddenInput())
+    rotate = forms.FloatField(widget=forms.HiddenInput())
+    scaleX = forms.FloatField(widget=forms.HiddenInput())
+    scaleY = forms.FloatField(widget=forms.HiddenInput())
