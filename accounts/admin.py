@@ -10,11 +10,11 @@ class UserAdmin(BaseUserAdmin):
     add_form = CreateUserForm
     form = UpdateUserForm
     model = User
-    list_display = ['email', 'username', 'first_name', 'last_name',
+    list_display = ['email', 'first_name', 'last_name',
                     'date_of_birth']
     list_filter = ('is_staff',)
     fieldsets = (
-        (None, {'fields': ('username', 'email', 'first_name',
+        (None, {'fields': ('email', 'first_name',
                            'last_name', 'password')}),
         ('Personal info', {'fields': ('date_of_birth', 'bio', 'avatar', 'city',
                                       'state', 'country', 'favorite_animal',
@@ -25,11 +25,13 @@ class UserAdmin(BaseUserAdmin):
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('username', 'email', 'first_name', 'last_name',
+            'fields': ('email', 'first_name', 'last_name',
                        'password')}),
         ('Personal info', {'fields': ('date_of_birth', 'bio', 'avatar', 'city',
                                       'state', 'country', 'favorite_animal',
                                       'hobbies')}),
     )
+    ordering = ['-date_joined']
+
 
 admin.site.register(User, UserAdmin)
