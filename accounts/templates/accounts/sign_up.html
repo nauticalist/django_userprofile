@@ -1,11 +1,27 @@
 {% extends "layout.html" %}
-
+{% load static %}
 {% block title %}Sign Up | {{ super }}{% endblock %}
+{% block header %}
+    <link rel="stylesheet" href="{% static 'css/strengthify.min.css' %}">
+    <script src="{% static 'js/jquery.strengthify.min.js' %}"></script>
+{% endblock %}
 
 {% block body %}
-<form method="POST" action="{% url 'accounts:sign_up' %}">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" class="button-primary" value="Sign Up">
-</form>
+    <form id="sign_up" method="POST" action="{% url 'accounts:sign_up' %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" class="button-primary" value="Sign Up">
+    </form>
+    <script type="text/javascript">
+        $(document.getElementById("sign_up").elements["password1"]).strengthify({
+            zxcvbn: 'https://cdn.rawgit.com/dropbox/zxcvbn/master/dist/zxcvbn.js',
+            drawTitles: true,
+            drawMessage: true
+        })
+        $(document.getElementById("sign_up").elements["password2"]).strengthify({
+            zxcvbn: 'https://cdn.rawgit.com/dropbox/zxcvbn/master/dist/zxcvbn.js',
+            drawTitles: true,
+            drawMessage: true
+        })
+    </script>
 {% endblock %}
