@@ -97,8 +97,9 @@ def change_password(request):
         if form.is_valid():
             form.save()
             messages.success(
-                request, 'You have successfully updated your password!')
-            return HttpResponseRedirect(reverse('accounts:profile'))
+                request,
+                'Password updated! Please login with your new password')
+            return HttpResponseRedirect(reverse('accounts:sign_in'))
     else:
         form = PasswordChangeForm(user=request.user)
     context = {
